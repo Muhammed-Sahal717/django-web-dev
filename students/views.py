@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from .forms import StudentForm
 
@@ -8,7 +8,8 @@ def student_form(request):
         form = StudentForm(request.POST)
 
         if form.is_valid():
-            print(form.cleaned_data)
+            form.save()
+            return redirect("student_form")
 
     else:
         form = StudentForm()
