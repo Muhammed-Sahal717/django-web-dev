@@ -2,10 +2,35 @@
 
 <h1>Student Registration</h1>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
   {% csrf_token %} {{ form.as_p }}
 
   <button type="submit">Register Student</button>
 </form>
 
-{% endblock %}
+<hr />
+
+<h2>Registered Students</h2>
+
+{% for student in students %}
+
+<div>
+  <h3>{{ student.name }}</h3>
+
+  <p>Email: {{ student.email }}</p>
+  <p>Age: {{ student.age }}</p>
+
+  {% if student.profile_image %}
+  <img
+    src="{{ student.profile_image.url }}"
+    alt="{{ student.name }} profile image"
+    width="150"
+  />
+  {% endif %}
+</div>
+
+{% empty %}
+
+<p>No students registered yet.</p>
+
+{% endfor %} {% endblock %}

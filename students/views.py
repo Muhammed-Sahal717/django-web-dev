@@ -1,11 +1,12 @@
 from django.shortcuts import redirect, render
 
 from .forms import StudentForm
+from .models import Student
 
 
 def student_form(request):
     if request.method == "POST":
-        form = StudentForm(request.POST)
+        form = StudentForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
@@ -14,4 +15,13 @@ def student_form(request):
     else:
         form = StudentForm()
 
-    return render(request, "students/student_form.html", {"form": form})
+    students = Student.objects.all()
+
+    return render(
+        request,
+        "students/student_form.html",
+        {
+            "form": form,
+            "students": students,
+        },
+    )
