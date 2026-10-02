@@ -20,10 +20,13 @@ from django.contrib import admin
 from django.urls import path
 from students.views import student_form
 
+from students.views import student_form, student_queries
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("student/", student_form, name="student_form"),
+    path("students/queries/", student_queries, name="student_queries"),
 ]
 
 if settings.DEBUG:
