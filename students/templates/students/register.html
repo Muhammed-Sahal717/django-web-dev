@@ -1,16 +1,26 @@
-{% extends "base.html" %} {% block title %}Register{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Register - Student Management{% endblock %} {% block content %}
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <div class="card-header">
+      <h1 class="card-title">Create Account</h1>
+      <p class="card-description">Register a new account to manage students</p>
+    </div>
 
-<h1>Create Account</h1>
+    <div class="card-content">
+      <form method="POST" class="form-stack">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-block">
+          Create Account
+        </button>
+      </form>
+    </div>
 
-<form method="POST">
-  {% csrf_token %} {{ form.as_p }}
-
-  <button type="submit">Register</button>
-</form>
-
-<p>
-  Already have an account?
-  <a href="{% url 'login' %}">Login</a>
-</p>
-
+    <div class="card-footer">
+      <p class="subtext">
+        Already have an account?
+        <a href="{% url 'login' %}" class="link">Login</a>
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}

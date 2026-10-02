@@ -1,16 +1,26 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Login - Student Management{% endblock %} {% block content %}
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <div class="card-header">
+      <h1 class="card-title">Login</h1>
+      <p class="card-description">
+        Enter your credentials to access your account
+      </p>
+    </div>
 
-<h1>Login</h1>
+    <div class="card-content">
+      <form method="POST" class="form-stack">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+    </div>
 
-<form method="POST">
-  {% csrf_token %} {{ form.as_p }}
-
-  <button type="submit">Login</button>
-</form>
-
-<p>
-  Don't have an account?
-  <a href="{% url 'register' %}">Register</a>
-</p>
-
+    <div class="card-footer">
+      <p class="subtext">
+        Don't have an account?
+        <a href="{% url 'register' %}" class="link">Register</a>
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}

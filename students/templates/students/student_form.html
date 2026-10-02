@@ -1,36 +1,55 @@
-{% extends "base.html" %} {% block title %}Student Registration{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Student Directory{% endblock %} {% block content %}
+<div class="page-layout">
+  <!-- Registration Form Card -->
+  <section class="card form-section">
+    <div class="card-header">
+      <h1 class="card-title">Student Registration</h1>
+      <p class="card-description">
+        Add a student record with basic info and profile photo
+      </p>
+    </div>
+    <div class="card-content">
+      <form method="POST" enctype="multipart/form-data" class="form-stack">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Register Student</button>
+      </form>
+    </div>
+  </section>
 
-<h1>Student Registration</h1>
+  <!-- Students Grid Card -->
+  <section class="card-list-section">
+    <div class="section-header">
+      <h2 class="section-title">Registered Students</h2>
+      <span class="badge">{{ students|length }} total</span>
+    </div>
 
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %} {{ form.as_p }}
+    <div class="grid grid-3">
+      {% for student in students %}
+      <div class="card student-card">
+        {% if student.profile_image %}
+        <div class="avatar-container">
+          <img
+            src="{{ student.profile_image.url }}"
+            alt="{{ student.name }}"
+            class="avatar-img"
+          />
+        </div>
+        {% else %}
+        <div class="avatar-fallback">{{ student.name|slice:":1"|upper }}</div>
+        {% endif %}
 
-  <button type="submit">Register Student</button>
-</form>
-
-<hr />
-
-<h2>Registered Students</h2>
-
-{% for student in students %}
-
-<div>
-  <h3>{{ student.name }}</h3>
-
-  <p>Email: {{ student.email }}</p>
-  <p>Age: {{ student.age }}</p>
-
-  {% if student.profile_image %}
-  <img
-    src="{{ student.profile_image.url }}"
-    alt="{{ student.name }} profile image"
-    width="150"
-  />
-  {% endif %}
+        <div class="student-info">
+          <h3 class="student-name">{{ student.name }}</h3>
+          <p class="student-detail text-muted">{{ student.email }}</p>
+          <span class="badge-subtle">Age: {{ student.age }}</span>
+        </div>
+      </div>
+      {% empty %}
+      <div class="card empty-state">
+        <p class="text-muted">No students registered yet.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
 </div>
-
-{% empty %}
-
-<p>No students registered yet.</p>
-
-{% endfor %} {% endblock %}
+{% endblock %}

@@ -1,49 +1,115 @@
-{% extends "base.html" %} {% block title %}Student Queries{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}ORM Queries - Student Management{% endblock %} {% block content %}
+<div class="queries-layout">
+  <div class="page-title-row">
+    <div>
+      <h1 class="page-title">Student ORM Queries</h1>
+      <p class="text-muted">
+        Database filtering, slicing, and aggregate reports.
+      </p>
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">Total Students</span>
+      <span class="metric-value">{{ total_students.total|default:0 }}</span>
+    </div>
+  </div>
 
-<h1>Student ORM Queries</h1>
+  <div class="grid grid-2">
+    <!-- Django Course -->
+    <div class="card query-card">
+      <div class="card-header">
+        <h2 class="card-title-sm">Students enrolled in Django</h2>
+      </div>
+      <div class="card-content">
+        <ul class="query-list">
+          {% for student in students_by_course %}
+          <li class="query-item">
+            <span>{{ student.name }}</span>
+            <span class="badge-subtle">{{ student.age }} yrs</span>
+          </li>
+          {% empty %}
+          <li class="query-item text-muted">No students found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-<h2>Students enrolled in Django</h2>
+    <!-- Older than 20 -->
+    <div class="card query-card">
+      <div class="card-header">
+        <h2 class="card-title-sm">Students older than 20</h2>
+      </div>
+      <div class="card-content">
+        <ul class="query-list">
+          {% for student in students_over_20 %}
+          <li class="query-item">
+            <span>{{ student.name }}</span>
+            <span class="badge-subtle">{{ student.age }} yrs</span>
+          </li>
+          {% empty %}
+          <li class="query-item text-muted">No students found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-{% for student in students_by_course %}
-<p>{{ student.name }} - {{ student.age }}</p>
-{% empty %}
-<p>No students found.</p>
-{% endfor %}
+    <!-- Ordered by Name -->
+    <div class="card query-card">
+      <div class="card-header">
+        <h2 class="card-title-sm">Students ordered by name</h2>
+      </div>
+      <div class="card-content">
+        <ul class="query-list">
+          {% for student in students_ordered %}
+          <li class="query-item">
+            <span>{{ student.name }}</span>
+          </li>
+          {% empty %}
+          <li class="query-item text-muted">No students found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-<h2>Students older than 20</h2>
+    <!-- Excluding Age 20 -->
+    <div class="card query-card">
+      <div class="card-header">
+        <h2 class="card-title-sm">Students excluding age 20</h2>
+      </div>
+      <div class="card-content">
+        <ul class="query-list">
+          {% for student in students_excluding_20 %}
+          <li class="query-item">
+            <span>{{ student.name }}</span>
+            <span class="badge-subtle">{{ student.age }} yrs</span>
+          </li>
+          {% empty %}
+          <li class="query-item text-muted">No students found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-{% for student in students_over_20 %}
-<p>{{ student.name }} - {{ student.age }}</p>
-{% empty %}
-<p>No students found.</p>
-{% endfor %}
-
-<h2>Students ordered by name</h2>
-
-{% for student in students_ordered %}
-<p>{{ student.name }}</p>
-{% empty %}
-<p>No students found.</p>
-{% endfor %}
-
-<h2>Students excluding age 20</h2>
-
-{% for student in students_excluding_20 %}
-<p>{{ student.name }} - {{ student.age }}</p>
-{% empty %}
-<p>No students found.</p>
-{% endfor %}
-
-<h2>Students per course</h2>
-
-{% for course in courses_with_count %}
-<p>{{ course.name }}: {{ course.student_count }} students</p>
-{% empty %}
-<p>No courses found.</p>
-{% endfor %}
-
-<h2>Total Students</h2>
-
-<p>{{ total_students.total }}</p>
-
+    <!-- Per Course Count -->
+    <div class="card query-card card-span-full">
+      <div class="card-header">
+        <h2 class="card-title-sm">Students per course</h2>
+      </div>
+      <div class="card-content">
+        <div class="grid grid-3">
+          {% for course in courses_with_count %}
+          <div class="nested-stat-card">
+            <span class="nested-stat-title">{{ course.name }}</span>
+            <span class="nested-stat-number"
+              >{{ course.student_count }}
+              <span class="text-xs">students</span></span
+            >
+          </div>
+          {% empty %}
+          <p class="text-muted">No courses found.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
