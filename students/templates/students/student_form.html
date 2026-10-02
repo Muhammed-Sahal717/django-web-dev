@@ -1,16 +1,11 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Student Registration</title>
-  </head>
-  <body>
-    <h1>Student Registration</h1>
+{% extends "base.html" %} {% block title %}Student Registration{% endblock %} {% block content %}
 
-    <form method="POST">
-      {% csrf_token %} {{ form.as_p }}
+<h1>Student Registration</h1>
 
-      <button type="submit">Submit</button>
-    </form>
-  </body>
-</html>
+<form method="POST">
+  {% csrf_token %} {{ form.as_p }}
+
+  <button type="submit">Register Student</button>
+</form>
+
+{% endblock %}
