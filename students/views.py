@@ -8,6 +8,10 @@ from .forms import StudentForm, UserRegisterForm
 from .models import Course, Student
 
 
+def home(request):
+    return render(request, "home.html")
+
+
 @login_required
 def student_form(request):
     if request.method == "POST":
